@@ -26,16 +26,11 @@ def generate_random_alphanumeric():
     return random_chars 
 
 def get_shortlink(url): 
-    try:
-        rget = requests.get(
-            f"https://{Var.SHORTLINK_URL}/api?api={Var.SHORTLINK_API}&url={url}&alias={generate_random_alphanumeric()}"
-        )
-        rjson = rget.json()
-        if rjson.get("status") == "success" and rget.status_code == 200:
-            return rjson.get("shortenedUrl")
-        return url
-    except Exception as e:
-        print(f"Shortlink generation failed: {e}")
+    rget = requests.get(f"https://{Var.SHORTLINK_URL}/api?api={Var.SHORTLINK_API}&url={url}&alias={generate_random_alphanumeric()}") 
+    rjson = rget.json() 
+    if rjson["status"] == "success" or rget.status_code == 200: 
+        return rjson["shortenedUrl"] 
+    else: 
         return url
 
 MY_PASS = os.environ.get("MY_PASS", None)
@@ -86,9 +81,13 @@ async def private_receive_handler(c: Client, m: Message):
             )
             return
         except Exception as e:
-            await m.reply_text(f"Error: {e}")
+            await m.reply_text(e)
+            await c.send_message(
+                chat_id=m.chat.id,
+                text="sᴏᴍᴇᴛʜɪɴɢ ᴡᴇɴᴛ ᴡʀᴏɴɢ. ᴄᴏɴᴛᴀᴄᴛ ᴍʏ [ʙᴏss](https://telegram.me/CallOwnerBot)",
+                disable_web_page_preview=True
+            )
             return
-
     ban_chk = await db.is_banned(int(m.from_user.id))
     if ban_chk == True:
         return await m.reply(Var.BAN_ALERT)
@@ -115,10 +114,8 @@ async def private_receive_handler(c: Client, m: Message):
             text=msg_text.format(get_name(log_msg), humanbytes(get_media_file_size(m))),
             quote=True,
             reply_markup=InlineKeyboardMarkup([
-                [
-                    InlineKeyboardButton("• ꜱᴛʀᴇᴀᴍ •", url=stream),
-                    InlineKeyboardButton("• ᴅᴏᴡɴʟᴏᴀᴅ •", url=download)
-                ],
+                [InlineKeyboardButton("• ꜱᴛʀᴇᴀᴍ •", url=stream),
+                 InlineKeyboardButton("• ᴅᴏᴡɴʟᴏᴀᴅ •", url=download)],
                 [InlineKeyboardButton('🧿 ᴡᴀᴛᴄʜ ᴏɴ ᴛᴇʟᴇɢʀᴀᴍ 🖥', web_app=WebAppInfo(url=stream))]
             ])
         )
@@ -140,3 +137,48 @@ async def private_receive_handler(c: Client, m: Message):
         print(f"Sleeping for {str(e.x)}s")
         await asyncio.sleep(e.x)
         await c.send_message(chat_id=Var.BIN_CHANNEL, text=f"Gᴏᴛ FʟᴏᴏᴅWᴀɪᴛ ᴏғ {str(e.x)}s from [{m.from_user.first_name}](tg://user?id={m.from_user.id})\n\n**𝚄𝚜𝚎𝚛 𝙸𝙳 :** `{str(m.from_user.id)}`", disable_web_page_preview=True)
+
+@StreamBot.on_message(filters.channel & ~filters.group & (filters.document | filters.video | filters.photo)  & ~filters.forwarded, group=-1)
+async def channel_receive_handler(bot, broadcast):
+    if int(broadcast.chat.id) in Var.BAN_CHNL:
+        print("chat trying to get straming link is found in BAN_CHNL,so im not going to give stram link")
+        return
+    ban_chk = await db.is_banned(int(broadcast.chat.id))
+    if (int(broadcast.chat.id) in Var.BANNED_CHANNELS) or (ban_chk == True):
+        await bot.leave_chat(broadcast.chat.id)
+        return
+    try:  # This is the outer try block
+        log_msg = await broadcast.forward(chat_id=Var.BIN_CHANNEL)
+        stream_link = f"{Var.URL}watch/{str(log_msg.id)}/{quote_plus(get_name(log_msg))}?hash={get_hash(log_msg)}"
+        online_link = f"{Var.URL}{str(log_msg.id)}/{quote_plus(get_name(log_msg))}?hash={get_hash(log_msg)}"
+        try:  # This is the inner try block
+            if Var.SHORTLINK:
+                stream = get_shortlink(stream_link)
+                download = get_shortlink(online_link)
+            else:
+                stream = stream_link
+                download = online_link
+        except Exception as e:
+            print(f"An error occurred: {e}")
+
+        await log_msg.reply_text(
+            text=f"**Channel Name:** `{broadcast.chat.title}`\n**CHANNEL ID:** `{broadcast.chat.id}`\n**Rᴇǫᴜᴇsᴛ ᴜʀʟ:** {stream_link}",
+            quote=True
+        )
+        await bot.edit_message_reply_markup(
+            chat_id=broadcast.chat.id,
+            message_id=broadcast.id,
+            reply_markup=InlineKeyboardMarkup([
+                [InlineKeyboardButton("ꜱᴛʀᴇᴀᴍ 🔺", url=stream),
+                 InlineKeyboardButton("ᴅᴏᴡɴʟᴏᴀᴅ 🔻", url=download)]
+            ])
+        )
+    except FloodWait as w:
+        print(f"Sleeping for {str(w.x)}s")
+        await asyncio.sleep(w.x)
+        await bot.send_message(chat_id=Var.BIN_CHANNEL,
+                            text=f"GOT FLOODWAIT OF {str(w.x)}s FROM {broadcast.chat.title}\n\n**CHANNEL ID:** `{str(broadcast.chat.id)}`",
+                            disable_web_page_preview=True)
+    except Exception as e:
+        await bot.send_message(chat_id=Var.BIN_CHANNEL, text=f"**#ERROR_TRACKEBACK:** `{e}`", disable_web_page_preview=True)
+        print(f"Cᴀɴ'ᴛ Eᴅɪᴛ Bʀᴏᴀᴅᴄᴀsᴛ Mᴇssᴀɢᴇ!\nEʀʀᴏʀ:  **Give me edit permission in updates and bin Channel!{e}**")
