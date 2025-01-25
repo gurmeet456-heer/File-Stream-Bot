@@ -22,7 +22,7 @@
 - All unwanted code removed.
 - Fully modified repo
 - Deploy To Koyeb + Heroku + Railway
-- [Developer support](https://telegram.me/TechifySupport) 24x7
+- [Developer support](https://telegram.me/Its_me_Dev_Who) 24x7
 - And many more... 
 </details>
 
@@ -57,20 +57,17 @@
 <details><summary>Tap On Me For Credit</summary>
 
 
-💝 [TechifyBots](https://github.com/TechifyBots)
+💝 [Unknown Bots Recoded]()
 
-💘 [Biisal](https://github.com/biisal)
-
-💖 [Adarsh](https://github.com/adarsh-goel)
+💘 [It's me](https://telegram.me/Its_me_Dev_Who)
 </details>
 
 ### 💕 CONTACT DEVELOPER
 
-- [Rahul](https://telegram.me/TechifySupport)
+- [Itsme](https://telegram.me/Its_me_Dev_Who)
 
 ### ☕ BUY ME A COFFEE
-- [PayPal](https://paypal.me/TechifyBots)
-- [UPI](https://TechifyBots.github.io/Donate)
+- [Telegram](https://telegram.me/Its_me_Dev_Who)
 
 ### 📌 NOTE
 
