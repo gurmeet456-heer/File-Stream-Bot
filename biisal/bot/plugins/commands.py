@@ -131,7 +131,7 @@ Also You Can Use Me In Your Channel..Just Add Me And Make Me Admin And See My Po
     reply_markup=InlineKeyboardMarkup(
         [
             [InlineKeyboardButton("ℹ️ ɪɴꜰᴏ ℹ️", url="https://t.me/moviemarket_official/473"),
-            InlineKeyboardButton(💰 ᴅᴏɴᴀᴛᴇ 💰", callback_data="donate")],
+            InlineKeyboardButton("💰 ᴅᴏɴᴀᴛᴇ 💰", callback_data="donate")],
             [InlineKeyboardButton("✗ ᴄʟᴏsᴇ ✗", callback_data="close")]
         ]
     )
