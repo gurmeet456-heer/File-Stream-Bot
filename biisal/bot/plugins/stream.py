@@ -1,6 +1,3 @@
-#(c) Adarsh-Goel
-#(c) @biisal
-#(c) TechifyBots
 import os
 import asyncio
 import requests
@@ -40,13 +37,13 @@ pass_db = Database(Var.DATABASE_URL, "ag_passwords")
 msg_text ="""
 <b>ʏᴏᴜʀ ʟɪɴᴋ ɪs ɢᴇɴᴇʀᴀᴛᴇᴅ...⚡</b>
 
-<b> 📂 ꜰɪʟᴇ ɴᴀᴍᴇ :- </b> <i>{}</i>
+<b> 📂 ꜰɪʟᴇ :-  Currently Uploaded 🗃️ </b
 
 <b> 📊 ꜰɪʟᴇ sɪᴢᴇ :- </b> <i>{}</i>
 
-<b> ❗ ᴛʜɪꜱ ʟɪɴᴋ ᴡɪʟʟ ᴇxᴘɪʀᴇ ᴀꜰᴛᴇʀ 𝟼 ʜᴏᴜʀꜱ ‼️</b>
+<b> ‼️ ᴛʜɪꜱ ʟɪɴᴋ ᴡɪʟʟ ᴇxᴘɪʀᴇ ᴀꜰᴛᴇʀ 𝟼 ʜᴏᴜʀꜱ ‼️</b>
 
-<b> ʙʏ : @Marketmovie_bot</b>"""
+<b> ʙʏ : @Marketmovie_bot </b>"""
 
 @StreamBot.on_message((filters.private) & (filters.document | filters.video | filters.audio | filters.photo) , group=4)
 async def private_receive_handler(c: Client, m: Message):
@@ -115,28 +112,28 @@ async def private_receive_handler(c: Client, m: Message):
             quote=True,
             reply_markup=InlineKeyboardMarkup([
                 [InlineKeyboardButton("• ꜱᴛʀᴇᴀᴍ •", url=stream),
-                 InlineKeyboardButton("• ᴅᴏᴡɴʟᴏᴀᴅ •", url=download)],
-                [InlineKeyboardButton(' ᴡᴀᴛᴄʜ ᴏɴ ᴛᴇʟᴇɢʀᴀᴍ 🖥', web_app=WebAppInfo(url=stream))]
+                 InlineKeyboardButton("• ᴅᴏᴡɴʟᴏᴀᴅ •", url=download)]
+#                [InlineKeyboardButton(' ᴡᴀᴛᴄʜ ᴏɴ ᴛᴇʟᴇɢʀᴀᴍ 🖥', web_app=WebAppInfo(url=stream))]
             ])
         )
 
-        await m.delete()  # Delete the original message after processing
+       # await m.delete()  # Delete the original message after processing
 
         # Wait for 6 hours (21600 seconds)
-        await asyncio.sleep(21600)  # Sleep for 6 hours
+       # await asyncio.sleep(21600)  # Sleep for 6 hours
 
         # After 6 hours, delete `log_msg`, `a`, and `k`
-        try:
-            await log_msg.delete()
-            await a.delete()
-            await k.delete()
-        except Exception as e:
-            print(f"Error during deletion: {e}")
+      # try:
+         #   await log_msg.delete()
+         #   await a.delete()
+         #   await k.delete()
+      #  except Exception as e:
+        #    print(f"Error during deletion: {e}")
 
-    except FloodWait as e:
-        print(f"Sleeping for {str(e.x)}s")
-        await asyncio.sleep(e.x)
-        await c.send_message(chat_id=Var.BIN_CHANNEL, text=f"Gᴏᴛ FʟᴏᴏᴅWᴀɪᴛ ᴏғ {str(e.x)}s from [{m.from_user.first_name}](tg://user?id={m.from_user.id})\n\n**𝚄𝚜𝚎𝚛 𝙸𝙳 :** `{str(m.from_user.id)}`", disable_web_page_preview=True)
+   # except FloodWait as e:
+     #   print(f"Sleeping for {str(e.x)}s")
+     #   await asyncio.sleep(e.x)
+      #  await c.send_message(chat_id=Var.BIN_CHANNEL, text=f"Gᴏᴛ FʟᴏᴏᴅWᴀɪᴛ ᴏғ {str(e.x)}s from [{m.from_user.first_name}](tg://user?id={m.from_user.id})\n\n**𝚄𝚜𝚎𝚛 𝙸𝙳 :** `{str(m.from_user.id)}`", disable_web_page_preview=True)
 
 @StreamBot.on_message(filters.channel & ~filters.group & (filters.document | filters.video | filters.photo)  & ~filters.forwarded, group=-1)
 async def channel_receive_handler(bot, broadcast):
