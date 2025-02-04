@@ -17,7 +17,7 @@ class Var(object):
     MULTI_CLIENT = False
     API_ID = int(getenv('API_ID', '27167684'))
     API_HASH = str(getenv('API_HASH', '9900d75ba4720fe29771c52e468d3cf3'))
-    BOT_TOKEN = str(getenv('BOT_TOKEN' , '7094932693:AAE5k9hXsNv5YXL7JvBUw1KWb22wnRpHMQI'))
+    BOT_TOKEN = str(getenv('BOT_TOKEN' , '7956038054:AAG90mc12S21iQe_FBNZiN9aBAfJj6mbeFg'))
     PICS = (environ.get('PICS', 'https://envs.sh/jUp.jpg')).split()
     name = str(getenv('name', 'Marketstream_bot'))
     SLEEP_THRESHOLD = int(getenv('SLEEP_THRESHOLD', '60'))
