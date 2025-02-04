@@ -19,7 +19,7 @@ class Var(object):
     API_HASH = str(getenv('API_HASH', '9900d75ba4720fe29771c52e468d3cf3'))
     BOT_TOKEN = str(getenv('BOT_TOKEN' , '7094932693:AAE5k9hXsNv5YXL7JvBUw1KWb22wnRpHMQI'))
     PICS = (environ.get('PICS', 'https://envs.sh/jUp.jpg')).split()
-    name = str(getenv('name', 'Maketmovie_bot'))
+    name = str(getenv('name', 'Marketstream_bot'))
     SLEEP_THRESHOLD = int(getenv('SLEEP_THRESHOLD', '60'))
     WORKERS = int(getenv('WORKERS', '4'))
     BIN_CHANNEL = int(getenv('BIN_CHANNEL', '-1002210035725'))
